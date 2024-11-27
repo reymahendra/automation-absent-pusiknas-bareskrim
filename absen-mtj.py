@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from datetime import datetime
 import time
 
 form_url = 'https://docs.google.com/forms/d/e/1FAIpQLSed0VeJM8JWy_cXq6RUeU1X-iWFJWkV8FEx2xi8XVcv1scCQA/viewform'
@@ -11,8 +12,37 @@ form_url = 'https://docs.google.com/forms/d/e/1FAIpQLSed0VeJM8JWy_cXq6RUeU1X-iWF
 # Initialize WebDriver
 driver = webdriver.Edge()
 ### JAM ###
-tanggal_list = ["27-10-2024", "29-10-2024", "03-11-2024", "17-11-2024"]
-kondisi = "Malam"
+# Input untuk tanggal_list
+def input_tanggal_list():
+    while True:
+        try:
+            print("Masukkan daftar tanggal dalam format 'DD-MM-YYYY', dipisahkan dengan koma (contoh: 27-11-2024,01-01-2025):")
+            tanggal_input = input("Daftar Tanggal: ")
+            tanggal_list = tanggal_input.split(',')
+            
+            # Validasi setiap tanggal dalam daftar
+            tanggal_list = [datetime.strptime(t.strip(), "%d-%m-%Y").strftime("%d-%m-%Y") for t in tanggal_list]
+            return tanggal_list
+        except ValueError:
+            print("Salah satu tanggal tidak valid. Pastikan semua tanggal menggunakan format 'DD-MM-YYYY'.\n")
+    return tanggal_list
+
+# Input untuk kondisi
+def input_kondisi():
+    while True:
+        print("Pilih kondisi:")
+        print("1. Pagi")
+        print("2. Malam")
+        pilihan = input("Masukkan nomor pilihan (1/2): ")
+        if pilihan == "1":
+            return "Pagi"
+        elif pilihan == "2":
+            return "Malam"
+        else:
+            print("Input tidak valid. Harap masukkan 1 untuk Pagi atau 2 untuk Malam.\n")
+
+tanggal_list = input_tanggal_list()
+kondisi = input_kondisi()
 
 if kondisi == "Pagi":
     default_waktu_masuk = "08"
