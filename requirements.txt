@@ -1,0 +1,3 @@
+customtkinter
+selenium            # Untuk gambar/icon GUI jika dibutuhkan
+pyinstaller          # Jika nanti ingin convert ke .exe
